@@ -19,9 +19,9 @@ use App\Http\Controllers\TaskController;
     //
     // AOC-142 / AOC-220 [PHP] Change sort position endpoint
     //
-    // AOC-142 / AOC-219 [PHP] Delete todo endpoint
+    // AOC-142 / AOC-219 [PHP] Delete todo endpoint @done!
     //
-    // AOC-142 / AOC-217 [PHP] Get all todos endpoint
+    // AOC-142 / AOC-217 [PHP] Get all todos endpoint @done!
     //
     // AOC-142 / AOC-216 [PHP] Create todo endpoint @done!
     //
@@ -36,7 +36,7 @@ Route::get('index', [TaskController::class,'index'])->name('tasks.index'); // Ge
 
 Route::post('store', [TaskController::class,'store'])->name('tasks.store'); // Create todo endpoint
 
-// Route::delete('/task/{id}', [TaskController::class,'delete'])->name('tasks.delete'); // Delete todo endpoint
+Route::delete('/task_delete', [TaskController::class,'delete']); // Delete todo endpoint
 
 // Route::put('/task_priority/{id}', [TaskController::class,'priority'])->name('tasks.edit'); // Change sort position endpoint
 

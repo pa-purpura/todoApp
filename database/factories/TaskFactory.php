@@ -22,7 +22,7 @@ class TaskFactory extends Factory
     public function definition()
     {
       return [
-        'title' => $this->faker->word,
+        'title' => $this->faker->word(),
         'description' => $this->faker->text($maxNbChars = 300),
         'priority' => $this->faker->numberBetween($min = 1, $max = 8)
       ];
