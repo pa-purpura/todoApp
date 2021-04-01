@@ -15,12 +15,24 @@ use App\Http\Controllers\TaskController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+    // AOC-142 / AOC-221 [PHP] Unit testing
+    //
+    // AOC-142 / AOC-220 [PHP] Change sort position endpoint
+    //
+    // AOC-142 / AOC-219 [PHP] Delete todo endpoint
+    //
+    // AOC-142 / AOC-217 [PHP] Get all todos endpoint
+    //
+    // AOC-142 / AOC-216 [PHP] Create todo endpoint @done!
+    //
+    // AOC-142 / AOC-218 [PHP] Update todo endpoint
+
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
-// Route::get('/index', [TaskController::class,'index'])->name('tasks.index'); // Get all todos endpoint
+Route::get('index', [TaskController::class,'index'])->name('tasks.index'); // Get all todos endpoint
 
 Route::post('store', [TaskController::class,'store'])->name('tasks.store'); // Create todo endpoint
 

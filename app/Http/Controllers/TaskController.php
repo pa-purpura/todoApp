@@ -8,11 +8,18 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-  // @Index,
+  /*
+   *  Get all todos endpoint
+   */
+  public function index(){
+
+    return response()->json(Task::all());
+
+  }
 
   /*
    *  Create todo endpoint
-  */
+   */
   public function store(Request $request){
 
     $data = $request->all();
