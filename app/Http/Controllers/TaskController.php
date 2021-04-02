@@ -9,7 +9,9 @@ use App\Models\Task;
 class TaskController extends Controller
 {
   // public function test(){
-  //   $test= Task::where('priority','=', 99)->firstOrFail();
+  //   $id = 2;
+  //   $test = Task::findOrFail($id);
+  //
   //   dd($test);
   // }
   /*
@@ -21,6 +23,17 @@ class TaskController extends Controller
               ->get();
 
     return response()->json($task);
+
+  }
+
+  /*
+   *  Get a single todo endpoint
+   */
+  public function edit($id){
+
+    return response()->json(Task::find($id));
+
+    // dd(Task::findOrFail($id));
 
   }
   /*
@@ -52,11 +65,9 @@ class TaskController extends Controller
   /*
    *  Delete todo endpoint
    */
-  public function delete(Request $request){
+  public function delete($id){
 
-    $id = $request["id"];
-
-    // dd($id);
+    // $id = $request["id"];
 
     $todo_to_delete = Task::find($id);
 
@@ -74,11 +85,29 @@ class TaskController extends Controller
         'success' => true,
         'result' => $todo_to_delete,
       ]);
-
   }
-  // @edit,
-  // @edit,
-  // @update,
+  /*
+   *  Update todo endpoint
+   */
+  public function update(Request $request, $id){
 
+    $todo_to_update = Task::find($id);
+
+    $todo_to_update->fill($request->all());
+
+    try {
+      $todo_to_update->save();
+    }
+    catch (\Exception $e) {
+      return response()->json([
+        'success' => false,
+        'result' => $e->getMessage(),
+      ]);
+    }
+    return response()->json([
+      'success' => true,
+      'result' => $todo_to_update,
+    ]);
+  }
 //end of class
 }

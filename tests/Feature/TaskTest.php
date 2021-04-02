@@ -13,6 +13,7 @@ use Faker\Factory as Faker;
 
 class TaskTest extends TestCase
 {
+  use RefreshDatabase;
 
   /** @test */
   public function get_all_tasks()
@@ -27,7 +28,7 @@ class TaskTest extends TestCase
   {
     $request = Task::factory()->create();
 
-    $this->postJson('/api/store', compact('request'));
+    $this->postJson('/api/store', compact('request'))
          ->assertStatus(200);
   }
 
@@ -36,7 +37,7 @@ class TaskTest extends TestCase
   {
     $create_item_to_delete = Task::factory()->create([
             'title' => 'Todo to delete',
-            'description' => 'Deleted User',
+            'description' => 'Deleted Todo',
             'priority' => '99'
         ]);
 
@@ -50,6 +51,29 @@ class TaskTest extends TestCase
                      ->assertStatus(200);
 
   }
+
+  /** @test */
+public function it_can_update_the_task(){
+
+  $create_item_to_update = Task::factory()->create([
+            'title' => 'Todo to update',
+            'description' => 'Updated Todo',
+            'priority' => '99'
+        ]);
+
+  $find_item_to_update = Task::where('priority','=', 99)->first();
+  $task = $find_item_to_update->attributesToArray();
+  // dd($task);
+
+  $task['title'] = 'New title updated!';
+  $id = $task['id'];
+  $title = $task['title'];
+
+
+  $this->patchJson('api/task/'.$id, $task);
+  $this->assertDatabaseHas('tasks',$task);
+
+}
 
 //end of class
 }

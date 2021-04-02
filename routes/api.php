@@ -25,20 +25,28 @@ use App\Http\Controllers\TaskController;
     //
     // AOC-142 / AOC-216 [PHP] Create todo endpoint @done!
     //
-    // AOC-142 / AOC-218 [PHP] Update todo endpoint
+    // AOC-142 / AOC-218 [PHP] Update todo endpoint @done!
 
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
-Route::get('index', [TaskController::class,'index'])->name('tasks.index'); // Get all todos endpoint
+Route::get('index', [TaskController::class,'index']); // Get all todos endpoint
 
-Route::post('store', [TaskController::class,'store'])->name('tasks.store'); // Create todo endpoint
+Route::get('/task/{id}', [TaskController::class,'edit']); // Get a single todo endpoint with its details.
+Route::patch('/task/{id}', [TaskController::class,'update']); // Update todo endpoint
 
-Route::delete('/task_delete', [TaskController::class,'delete']); // Delete todo endpoint
+Route::post('store', [TaskController::class,'store']); // Create todo endpoint
+
+Route::delete('/task_delete/{id}', [TaskController::class,'delete']); // Delete todo endpoint
 
 // Route::put('/task_priority/{id}', [TaskController::class,'priority'])->name('tasks.edit'); // Change sort position endpoint
 
-// Route::get('/task/{id}', [TaskController::class,'edit'])->name('tasks.edit');
-// Route::put('/task/{id}', [TaskController::class,'update'])->name('tasks.update'); // Update todo endpoint
+
+
+
+
+
+
+// jff
