@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 
 use Faker\Factory as Faker;
 
+// AOC-142 / AOC-221 [PHP]
 class TaskTest extends TestCase
 {
   use RefreshDatabase;
@@ -18,8 +19,21 @@ class TaskTest extends TestCase
   /** @test */
   public function get_all_tasks()
   {
-
     $response = $this->getJson('/api/index')
+                     ->assertStatus(200);
+  }
+
+  /** @test */
+  public function get_all_tasks_completed()
+  {
+    $response = $this->getJson('/api/tasks_completed')
+                     ->assertStatus(200);
+  }
+
+  /** @test */
+  public function get_all_tasks_not_completed()
+  {
+    $response = $this->getJson('/api/tasks_not_completed')
                      ->assertStatus(200);
   }
 
@@ -37,11 +51,11 @@ class TaskTest extends TestCase
   {
     $create_item_to_delete = Task::factory()->create([
             'title' => 'Todo to delete',
-            'description' => 'Deleted Todo',
-            'priority' => '99'
+            'img' => 'https://picsum.photos/600/480',
+            'is_completed' => false
         ]);
 
-    $find_item_to_delete = Task::where('priority','=', 99)->firstOrFail();
+    $find_item_to_delete = Task::where('title','=', 'Todo to delete')->firstOrFail();
 
     $item_to_delete  = $find_item_to_delete->attributesToArray();
 
@@ -57,11 +71,11 @@ public function it_can_update_the_task(){
 
   $create_item_to_update = Task::factory()->create([
             'title' => 'Todo to update',
-            'description' => 'Updated Todo',
-            'priority' => '99'
+            'img' => 'https://picsum.photos/600/480',
+            'is_completed' => false
         ]);
 
-  $find_item_to_update = Task::where('priority','=', 99)->first();
+  $find_item_to_update = Task::where('title','=', 'Todo to update')->first();
   $task = $find_item_to_update->attributesToArray();
   // dd($task);
 

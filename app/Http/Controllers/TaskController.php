@@ -19,8 +19,29 @@ class TaskController extends Controller
    */
   public function index(){
 
-    $task = Task::orderBy('priority', 'desc')
-              ->get();
+    $task = Task::all();
+
+    return response()->json($task);
+
+  }
+
+  /*
+   *  Get all todos, completed.
+   */
+  public function completed(){
+
+    $task = Task::where('is_completed','=', 1)->get();
+
+    return response()->json($task);
+
+  }
+
+  /*
+   *  Get all todos, not completed.
+   */
+  public function not_completed(){
+
+    $task = Task::where('is_completed','=', 0)->get();
 
     return response()->json($task);
 
@@ -32,8 +53,6 @@ class TaskController extends Controller
   public function edit($id){
 
     return response()->json(Task::find($id));
-
-    // dd(Task::findOrFail($id));
 
   }
   /*

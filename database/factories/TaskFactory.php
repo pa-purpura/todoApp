@@ -23,10 +23,9 @@ class TaskFactory extends Factory
     {
       return [
         'title' => $this->faker->word(),
-        'description' => $this->faker->text($maxNbChars = 300),
-        'priority' => $this->faker->numberBetween($min = 1, $max = 8)
+        'img' => 'https://picsum.photos/600/480',
+        'is_completed' => $this->faker->boolean(),
       ];
     }
-  // ($nbWords = 3, $variableNbWords = true)
 
 }
