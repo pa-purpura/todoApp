@@ -16,7 +16,8 @@ class CreateTasksTable extends Migration
       Schema::create('tasks', function (Blueprint $table) {
         $table->id();
         $table->string('title');
-        $table->string('img');
+        $table->string('img_name');
+        $table->string('img_path');
         $table->boolean('is_completed')->default(false);
         $table->timestamps();
       });

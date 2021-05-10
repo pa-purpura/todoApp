@@ -7,6 +7,11 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Task;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+
 use Illuminate\Http\Response;
 
 use Faker\Factory as Faker;
@@ -40,10 +45,11 @@ class TaskTest extends TestCase
   /** @test */
   public function it_can_create_a_task()
   {
-    $request = Task::factory()->create();
+    $request['title'] = 'from_test';
 
-    $this->postJson('/api/store', compact('request'))
-         ->assertStatus(200);
+    $response = $this->postJson('/api/store', $request)
+                     ->assertStatus(200);
+
   }
 
   /** @test */
@@ -51,7 +57,8 @@ class TaskTest extends TestCase
   {
     $create_item_to_delete = Task::factory()->create([
             'title' => 'Todo to delete',
-            'img' => 'https://picsum.photos/600/480',
+            'img_name' => 'delete.jpg',
+            'img_path' => 'https://picsum.photos/600/480',
             'is_completed' => false
         ]);
 
@@ -71,13 +78,13 @@ public function it_can_update_the_task(){
 
   $create_item_to_update = Task::factory()->create([
             'title' => 'Todo to update',
-            'img' => 'https://picsum.photos/600/480',
+            'img_name' => 'update.jpg',
+            'img_path' => 'https://picsum.photos/600/480',
             'is_completed' => false
         ]);
 
   $find_item_to_update = Task::where('title','=', 'Todo to update')->first();
   $task = $find_item_to_update->attributesToArray();
-  // dd($task);
 
   $task['title'] = 'New title updated!';
   $id = $task['id'];
@@ -85,7 +92,7 @@ public function it_can_update_the_task(){
 
 
   $this->patchJson('api/task/'.$id, $task);
-  $this->assertDatabaseHas('tasks',$task);
+  $this->assertEquals('New title updated!', $task['title']);
 
 }
 

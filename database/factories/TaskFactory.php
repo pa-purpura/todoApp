@@ -23,7 +23,8 @@ class TaskFactory extends Factory
     {
       return [
         'title' => $this->faker->word(),
-        'img' => 'https://picsum.photos/600/480',
+        'img_name' => $this->faker->word().".jpg",
+        'img_path' => 'https://picsum.photos/100',
         'is_completed' => $this->faker->boolean(),
       ];
     }

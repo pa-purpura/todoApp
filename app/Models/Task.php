@@ -11,6 +11,6 @@ class Task extends Model
 
   protected $table = 'tasks';
 
-  protected $fillable = ['title', 'img', 'is_completed'];
+  protected $fillable = ['title', 'img_name', 'img_path', 'is_completed'];
 
 }

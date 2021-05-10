@@ -8,12 +8,7 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-  // public function test(){
-  //   $id = 2;
-  //   $test = Task::findOrFail($id);
-  //
-  //   dd($test);
-  // }
+  
   /*
    *  Get all todos endpoint
    */
@@ -55,14 +50,40 @@ class TaskController extends Controller
     return response()->json(Task::find($id));
 
   }
+
+  public function local_create(){
+
+    $data = [
+      'title' => 'nuovo todo',
+    ];
+
+    return view('new_item', $data);
+  }
+
+
   /*
    *  Create todo endpoint
    */
   public function store(Request $request){
 
+    // WARNING !! to work well, first of all
+    // the FE form needs this attribute: enctype="multipart/form-data"
+
     $data = $request->all();
 
+    $validatedData = $request->validate([
+      'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+    ]);
+
     $new_todo = new Task();
+
+    if (!isset($data['image'])) {
+      $new_todo->img_name = 'no image';
+      $new_todo->img_path = 'public/images/no_image.jpeg';
+    } else {
+      $new_todo->img_name = $request->file('image')->getClientOriginalName();
+      $new_todo->img_path = $request->file('image')->store('public/images');
+    }
 
     $new_todo->fill($data);
 
