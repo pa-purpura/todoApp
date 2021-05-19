@@ -12,9 +12,24 @@ class TaskController extends Controller
   /*
    *  Get all todos endpoint
    */
-  public function index(){
+  public function index(Request $request){
 
-    $task = Task::all();
+    $pages = $request->forPage;
+    $limit = $request->limit;
+
+    if (!isset($pages)) {
+      $pages = 15;
+    } else {
+      $pages = $request->forPage;
+    }
+
+    if (!isset($limit)) {
+      $limit = 15;
+    } else {
+      $limit = $request->limit;
+    }
+
+    $task = Task::limit($limit)->paginate($pages);
 
     return response()->json($task);
 
@@ -23,9 +38,24 @@ class TaskController extends Controller
   /*
    *  Get all todos, completed.
    */
-  public function completed(){
+  public function completed(Request $request){
 
-    $task = Task::where('is_completed','=', 1)->get();
+    $pages = $request->forPage;
+    $limit = $request->limit;
+
+    if (!isset($pages)) {
+      $pages = 15;
+    } else {
+      $pages = $request->forPage;
+    }
+
+    if (!isset($limit)) {
+      $limit = 15;
+    } else {
+      $limit = $request->limit;
+    }
+
+    $task = Task::where('is_completed','=', 1)->limit($limit)->paginate($pages);
 
     return response()->json($task);
 
@@ -34,9 +64,24 @@ class TaskController extends Controller
   /*
    *  Get all todos, not completed.
    */
-  public function not_completed(){
+  public function not_completed(Request $request){
 
-    $task = Task::where('is_completed','=', 0)->get();
+    $pages = $request->forPage;
+    $limit = $request->limit;
+
+    if (!isset($pages)) {
+      $pages = 15;
+    } else {
+      $pages = $request->forPage;
+    }
+
+    if (!isset($limit)) {
+      $limit = 15;
+    } else {
+      $limit = $request->limit;
+    }
+
+    $task = Task::where('is_completed','=', 0)->limit($limit)->paginate($pages);
 
     return response()->json($task);
 
@@ -51,16 +96,6 @@ class TaskController extends Controller
 
   }
 
-  public function local_create(){
-
-    $data = [
-      'title' => 'nuovo todo',
-    ];
-
-    return view('new_item', $data);
-  }
-
-
   /*
    *  Create todo endpoint
    */
@@ -72,6 +107,7 @@ class TaskController extends Controller
     $data = $request->all();
 
     $validatedData = $request->validate([
+      'title' => 'required',
       'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
     ]);
 
